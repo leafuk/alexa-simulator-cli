@@ -15,6 +15,10 @@
     "cli"
   ],
   "author": "Lea Foreman",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/leafuk/alexa-simulator-cli.git"
+  },
   "license": "MIT",
   "dependencies": {
     "argparse": "^1.0.9",
