@@ -3,12 +3,13 @@
 'use strict';
 
 var ArgumentParser = require('argparse').ArgumentParser;
-var nodemon = require('nodemon');
+var colors = require('colors');
+var relative = require('relative');
+
 var path = require('path');
 var fs = require('fs');
+
 var parser = new ArgumentParser();
-var colors = require('colors');
-var spawn = require("child_process").spawn
 
 parser.addArgument(
   [ '-p', '--path' ],
@@ -53,13 +54,6 @@ try {
 
 var server = require(__dirname + '/../server.js');
 
-server.start(path  + '/' + mainScriptFile, skillPackageConf.name, path + '/interactionModel.json')
+var relativePathToSkill = relative(process.cwd(), path  + '/' + mainScriptFile);
 
-// nodemon({
-//   nodeArgs: (process.env.REMOTE_DEBUG) ? ['--debug'] : [],
-//   script: __dirname + '/../server.js',
-//   args: [path  + '/' + mainScriptFile, skillPackageConf.name, path + '/interactionModel.json'],
-//   env: {
-//     'DEBUG': (process.env.DEBUG) ? process.env.DEBUG : 'skill'
-//   }
-// });
+server.start(relativePathToSkill, skillPackageConf.name, path + '/interactionModel1.json');

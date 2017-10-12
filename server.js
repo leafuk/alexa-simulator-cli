@@ -1,145 +1,72 @@
-const lambdaLocal = require('lambda-local');
-var winston = require('winston');
-var colors = require('colors');
-
-winston.remove(winston.transports.Console)
-
-var interactionModel = require('./server/InteractionModel');
-var fileUtil = require('./server/FileUtil');
-
+const colors = require('colors');
+const va = require("virtual-alexa");
 const vorpal = require('vorpal')();
+
+var _consoleLog = console.log;
+var DEBUG = console.log;
+console.log = function() {};
 
 module.exports = { 
     start: function(skill, skillName, interactionModelPath) {
+        
+        const alexa = va.VirtualAlexa.Builder()
+            .handler(skill.replace('.js', '.handler')) // Lambda function file and name
+            .interactionModelFile(interactionModelPath)
+            .applicationID('amzn1.ask.skill.9a451d2a-4788-482c-ad08-b7af959061b4')
+            .create();
+            
         vorpal
             .command('start', 'Invokes the LaunchRequest')
             .action(function (args, cb) {
-                fileUtil.FileUtil.readFile(__dirname + '/server/requestBase.json', (data) => {
-                    if(data === null) { 
-                        console.log(JSON.stringify({response: 'requests is null'}));
-                        cb();
-                        return;
-                    }
-
-                    var event = JSON.parse(data.toString()).launch;
-
-                    //event.session = requestSession;
-                    event.request.timestamp = new Date().toISOString();
-
-                    executeLambda(event, skill, function(err, res){
-                        console.log('YAY! Here\'s the response'.bgGreen.black);
-                        console.log(res);
+                alexa.launch()
+                    .then(success)
+                    .catch(error)
+                    .then(() => {
                         cb();
                     });
-                });
             })
 
         vorpal
             .command('stop', 'Invokes an AMAZON.StopIntent')
             .action(function (args, cb){
-                parseSpeech('AMAZON.StopIntent', interactionModelPath, skill, cb);
+                say('AMAZON.StopIntent', cb);
             });
 
         vorpal
             .command('cancel', 'Invokes an AMAZON.CancelIntent')
             .action(function (args, cb){
-                parseSpeech('AMAZON.CancelIntent', interactionModelPath, skill, cb);
+                say('AMAZON.CancelIntent', cb);
             });
 
         vorpal
             .command('say <words...>', 'Invokes the Intent matching the supplied utterance')
             .action(function (args, cb) {
-                parseSpeech(args.words.join(' '), interactionModelPath, skill, cb);
+                say(args.words.join(' '), cb);
             });
 
-        console.log('Skill: ' + skillName);
+        DEBUG('Skill: ' + skillName);
 
         vorpal
-        .delimiter('Enter utterance:'.bgCyan.black)
-        .show();
-    }
-}
-
-var executeLambda = function(event, lambdaPath, cb) {
-    lambdaLocal.execute({
-        event: event,
-        lambdaPath: lambdaPath, //process.argv[2],
-        lambdaHandler: 'handler',
-        timeoutMs: 3000,
-        mute: true,
-        environment: {
-            'DEBUG': (process.env.DEBUG) ? process.env.DEBUG : 'skill'
-        },
-        callback: function(error, data) {
-            cb(error, data);
-        }
-    });
-}
-
-var parseSpeech = function(speech, interactionModelPath, skill, cb) {
-    if(!interactionModel || !interactionModel.InteractionModel) {
-        console.log('no interaction model');
-        cb();
-    }
-
-    interactionModel.InteractionModel.fromFiles(
-        interactionModelPath,
-        null, 
-        function(model, err) {
-            if(err){
-                console.log(err);
-                cb();
-                return;
-            }
-
-            var intent = model.intentForUtterance(speech);
-
-            var intentModel = {
-                "name": {},
-                "slots": {}
-            };
-
-            if(intent === null) {
-                if(model.hasIntent(speech)) {
-                    // Map the speech directly to intent, as it's a valid intent
-                    intentModel.name = speech;
-                } else {
-                    console.log('Utterance not supported'.bgRed);
-                    cb();
-                    return;
-                }
-            } else {
-                var slots = {}
-                for(var i = 0; i < intent.slotCount(); i++){
-                    slots[intent.slotName(i)] = {
-                        "name": intent.slotName(i),
-                        "value": intent.slotValue(i)
-                    }
-                }
-
-                intentModel.name = intent.intentName;
-                intentModel.slots = slots;
-            }
-
-            fileUtil.FileUtil.readFile(__dirname + '/server/requestBase.json', (data) => {
-                if(data === null) { 
-                    console.log(JSON.stringify({response: 'error'}));
-                    cb();
-                    return;
-                }
-
-                var event = JSON.parse(data.toString()).intent;
-
-                //event.session = requestSession;
-                event.request.intent = intentModel;
-                event.request.timestamp = new Date().toISOString();
-
-                executeLambda(event, skill, function(err, res){
-                    console.log(err);
-                    console.log('YAY! Here\'s the response'.bgGreen.black);
-                    console.log(res);
+            .delimiter('Enter utterance (or ask for \'help\')'.bgCyan.black)
+            .show();
+        
+        var say = function(utterance, cb) {
+            alexa.utter(utterance)
+                .then(success)
+                .catch(error)
+                .then(() => {
                     cb();
                 });
-            });
-    });
+        }
+    }
+}
+
+var success = function(payload) {
+    DEBUG('YAY! Here\'s the response'.bgGreen.black);
+    DEBUG(payload.response.outputSpeech.ssml);
+}
+
+var error = function(error) {
+    DEBUG('BOOO! There was a problem:'.bgRed.black);
+    DEBUG(error);
 }
