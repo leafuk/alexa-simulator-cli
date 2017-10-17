@@ -16,3 +16,18 @@ npm install -g
 ```
 npm link
 ```
+
+## To run
+```
+alexa-sim -p /projects/skill-proj
+```
+
+Or navigate to the root of the skill and then just 
+```
+alexa-sim
+```
+
+For more detailed info, include the verbose flag
+```
+alexa-sim -v
+```

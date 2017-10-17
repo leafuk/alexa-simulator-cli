@@ -6,7 +6,7 @@ var ArgumentParser = require('argparse').ArgumentParser;
 var colors = require('colors');
 var relative = require('relative');
 
-var path = require('path');
+//var path = require('path');
 var fs = require('fs');
 
 var parser = new ArgumentParser();
@@ -18,9 +18,20 @@ parser.addArgument(
   }
 );
 
+parser.addArgument(
+  [ '-v' ],
+  {
+    action: 'storeTrue',
+    dest:   'verbose',
+    help:   'verbose mode'
+  }
+);
+
 var args = parser.parseArgs();
 
 var path = args.path ? args.path : process.cwd();
+
+var verbose = args.verbose ? true : false;
 
 try {
   var skillPackageConf = require(path + '/package.json');
@@ -56,4 +67,4 @@ var server = require(__dirname + '/../server.js');
 
 var relativePathToSkill = relative(process.cwd(), path  + '/' + mainScriptFile);
 
-server.start(relativePathToSkill, skillPackageConf.name, path + '/interactionModel1.json');
+server.start(relativePathToSkill, skillPackageConf.name, path + '/interactionModel.json', verbose);
