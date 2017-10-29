@@ -1,5 +1,5 @@
 const colors = require('colors');
-const va = require("virtual-alexa");
+const va = require("./lib/src/Index");
 const vorpal = require('vorpal')();
 
 var _consoleLog = console.log;
@@ -69,7 +69,7 @@ module.exports = {
         DEBUG('Skill: ' + skillName);
 
         vorpal
-            .delimiter('Enter utterance (or ask for \'help\')'.bgCyan.black)
+            .delimiter('Enter utterance'.bgCyan.black)
             .show();
         
         var say = function(utterance, cb) {

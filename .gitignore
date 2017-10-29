@@ -62,3 +62,13 @@ config.production.secrets.leaforeman.js
 data.csv
 data.html
 helpers/newJargonImport.js
+
+.idea
+
+lib
+
+*.tgz
+
+# Testing stuff
+coverage
+.nyc_output

@@ -1,12 +1,10 @@
 {
-  "name": "alexa-sim",
-  "version": "0.0.1",
-  "description": "CLI Alexa Simulator",
-  "main": "index.js",
+  "name": "virtual-alexa",
+  "license": "Apache-2.0",
+  "private": false,
+  "version": "0.3.1",
+  "main": "./lib/src/Index.js",
   "typings": "./lib/src/Index.d.ts",
-  "bin": {
-    "alexa-sim": "./bin/start.js"
-  },
   "engines": {
     "node": "> 6.0.0"
   },
@@ -19,6 +17,16 @@
     "lib/src/User.d.ts",
     "lib/src/VirtualAlexa.d.ts"
   ],
+  "nyc": {
+    "exclude": [
+      "lib/test/*.js",
+      "test/**/*.js"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/bespoken/virtual-alexa.git"
+  },
   "scripts": {
     "docs": "gulp --gulpfile docs/gulpfile.js --cwd .",
     "posttest": "nyc report --reporter=json --reporter=html && codecov -f coverage/*.json",
@@ -27,22 +35,7 @@
     "tsc": "tsc",
     "typings": "typings install"
   },
-  "keywords": [
-    "alexa",
-    "simulator",
-    "cli"
-  ],
-  "author": "Lea Foreman",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/leafuk/alexa-simulator-cli.git"
-  },
-  "license": "MIT",
   "dependencies": {
-    "argparse": "^1.0.9",
-    "colors": "^1.1.2",
-    "relative": "^3.0.2",
-    "vorpal": "^1.12.0",
     "@types/uuid": "^3.4.1",
     "uuid": "^3.1.0"
   },

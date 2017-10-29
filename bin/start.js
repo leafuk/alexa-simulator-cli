@@ -19,6 +19,13 @@ parser.addArgument(
 );
 
 parser.addArgument(
+  [ '-i', '--interactionmodel' ],
+  {
+    help: 'Path to Interaction Model'
+  }
+);
+
+parser.addArgument(
   [ '-v' ],
   {
     action: 'storeTrue',
@@ -31,10 +38,12 @@ var args = parser.parseArgs();
 
 var path = args.path ? args.path : process.cwd();
 
+var interactionModelPath = args.interactionmodel ? path + '/' + args.interactionmodel : path + '/interactionModel.json';
+
 var verbose = args.verbose ? true : false;
 
 try {
-  var skillPackageConf = require(path + '/package.json');
+    var skillPackageConf = require(path + '/package.json');
 } catch (err) {
   console.error('Package.json not found.'.red);
   process.exit(1);
@@ -48,7 +57,7 @@ if (!skillPackageConf.main) {
 var mainScriptFile = skillPackageConf.main;
 
 try {
-    var interactionModel = require(path + '/interactionModel.json');
+    var interactionModel = require(interactionModelPath);
 } catch (err) {
     console.log('Interaction Model not found.'.red);
     console.log('Please ensure an Interaction Model is saved at the root of your app, with a name of "interactionModel.json".'.bgRed);
@@ -67,4 +76,4 @@ var server = require(__dirname + '/../server.js');
 
 var relativePathToSkill = relative(process.cwd(), path  + '/' + mainScriptFile);
 
-server.start(relativePathToSkill, skillPackageConf.name, path + '/interactionModel.json', verbose);
+server.start(relativePathToSkill, skillPackageConf.name, interactionModelPath, verbose);
