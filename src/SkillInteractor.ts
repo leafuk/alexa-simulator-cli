@@ -24,6 +24,8 @@ export enum AlexaEvent {
 export abstract class SkillInteractor {
     protected skillContext: SkillContext = null;
 
+    protected isVerbose: boolean = false;
+
     public constructor(protected model: InteractionModel, applicationID?: string) {
         const audioPlayer = new AudioPlayer(this);
         this.skillContext = new SkillContext(this.model, audioPlayer, applicationID);
@@ -32,6 +34,10 @@ export abstract class SkillInteractor {
 
     public context(): SkillContext {
         return this.skillContext;
+    }
+
+    public verboseMode(isVerbose: boolean) {
+        this.isVerbose = isVerbose;
     }
 
     /**
@@ -101,6 +107,10 @@ export abstract class SkillInteractor {
         const requestJSON = serviceRequest.toJSON();
         if (requestFilter) {
             requestFilter(requestJSON);
+        }
+
+        if(this.isVerbose) {
+            console.log(JSON.stringify(requestJSON));
         }
 
         const result: any = await this.invoke(requestJSON);

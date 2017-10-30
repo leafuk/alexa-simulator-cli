@@ -4,14 +4,16 @@ const vorpal = require('vorpal')();
 
 var _consoleLog = console.log;
 var DEBUG = console.log;
-console.log = function() {};
+//console.log = function() {};
 
 var alexa = null;
 
 module.exports = { 
     start: function(skill, skillName, interactionModelPath, verbose) {
 
-        alexa = createVirtualAlexa(interactionModelPath, skill);
+        alexa = createVirtualAlexa(interactionModelPath, skill, verbose);
+
+        alexa.verboseMode(verbose);
 
         vorpal
             .command('start', 'Invokes the LaunchRequest')
@@ -66,6 +68,14 @@ module.exports = {
                 say(args.words.join(' '), cb);
             });
 
+        vorpal
+            .command('token <token>', 'Sets the Access Token with the supplied value')
+            .action(function(args, cb) {
+                alexa.context().setAccessToken(args.token);
+                DEBUG('Access Token set to: ' + args.token + ''.grey);
+                cb();
+            })
+
         DEBUG('Skill: ' + skillName);
 
         vorpal
@@ -86,11 +96,11 @@ module.exports = {
 var success = function(verbose, payload) {
     if(verbose) {
         DEBUG('Here\'s the payload'.bgWhite.black);
-        DEBUG(payload);
+        DEBUG(JSON.stringify(payload));
     }
 
     DEBUG('YAY! Here\'s the response'.bgGreen.black);
-    DEBUG(payload.response.outputSpeech.ssml);
+    DEBUG(payload.response.outputSpeech.ssml.green);
 
     return new Promise(function (fulfill, reject) {
         fulfill(payload);
@@ -98,7 +108,7 @@ var success = function(verbose, payload) {
 }
 
 var error = function(error) {
-    DEBUG('BOOO! There was a problem:'.bgRed.black);
+    DEBUG('BOOO! There was a problem:'.bgRed.white);
     DEBUG(error);
 }
 

@@ -26,6 +26,10 @@ export class VirtualAlexa {
         return this.interactor.context();
     }
 
+    public verboseMode(isVerbose: boolean): void {
+        this.interactor.verboseMode(isVerbose);
+    }
+
     public endSession(): Promise<any> {
         return this.interactor.sessionEnded(SessionEndedReason.USER_INITIATED, this._filter);
     }
