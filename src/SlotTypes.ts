@@ -55,7 +55,7 @@ export class SlotType implements ISlotType {
     public match(value: string) {
         let match: SlotMatch = new SlotMatch(false);
         for (const slotValue of this.values) {
-            if (slotValue.name.synonyms) {
+            if (slotValue.name.synonyms && slotValue.name.synonyms.length > 0) {
                 for (const synonym of slotValue.name.synonyms) {
                     if (synonym.toLowerCase() === value) {
                         match = new SlotMatch(true, slotValue.name.value, slotValue.id, synonym);
