@@ -95,11 +95,9 @@ module.exports = {
 
 var success = function(verbose, payload) {
     if(verbose) {
-        DEBUG('Here\'s the payload'.bgWhite.black);
         DEBUG(JSON.stringify(payload));
     }
 
-    DEBUG('YAY! Here\'s the response'.bgGreen.black);
     DEBUG(payload.response.outputSpeech.ssml.green);
 
     return new Promise(function (fulfill, reject) {
