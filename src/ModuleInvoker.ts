@@ -6,7 +6,11 @@ export class ModuleInvoker {
         const functionName = handlerParts[handlerParts.length - 1];
         const fileName = handlerParts.slice(0, handlerParts.length - 1).join("/") + ".js";
         const fullPath = path.join(process.cwd(), fileName);
-        const handlerModule = require(fullPath);
+        
+        // Delete the cached instance so we can effectively reload any changes made
+        delete require.cache[fullPath];
+        
+        var handlerModule = require(fullPath);
 
         return new Promise<any>((resolve, reject) => {
             const callback = (error: Error, result: any) => {
@@ -19,6 +23,8 @@ export class ModuleInvoker {
 
             const context = new LambdaContext(callback);
 
+            
+
             handlerModule[functionName](event, context, callback);
         });
     }
@@ -27,7 +33,7 @@ export class ModuleInvoker {
 class LambdaContext {
     public awsRequestId = "N/A";
     public callbackWaitsForEmptyEventLoop = true;
-    public functionName = "BST.LambdaServer";
+    public functionName = "LambdaServer";
     public functionVersion = "N/A";
     public memoryLimitInMB = -1;
     public invokedFunctionArn = "N/A";

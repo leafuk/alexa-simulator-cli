@@ -12,6 +12,7 @@
     "removeComments": true,
     "stripInternal": true,
     "sourceMap": true,
+    "sourceRoot": "../src",
     "target": "ES6"
   },
   "include": [

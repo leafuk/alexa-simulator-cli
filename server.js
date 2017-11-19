@@ -4,7 +4,7 @@ const vorpal = require('vorpal')();
 
 var _consoleLog = console.log;
 var DEBUG = console.log;
-//console.log = function() {};
+console.log = function() {};
 
 var alexa = null;
 
@@ -34,7 +34,7 @@ module.exports = {
 
         vorpal
             .command('cancel', 'Invokes an AMAZON.CancelIntent')
-            .action(function (args, cb){
+            .action(function (args, cb) {
                 say('AMAZON.CancelIntent', cb);
             });
 
@@ -95,7 +95,7 @@ module.exports = {
 
 var success = function(verbose, payload) {
     if(verbose) {
-        DEBUG(JSON.stringify(payload));
+        DEBUG(JSON.stringify(payload, null, 4));
     }
 
     DEBUG(payload.response.outputSpeech.ssml.green);
