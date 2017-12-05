@@ -6,7 +6,6 @@ var ArgumentParser = require('argparse').ArgumentParser;
 var colors = require('colors');
 var relative = require('relative');
 
-//var path = require('path');
 var fs = require('fs');
 
 var parser = new ArgumentParser();
