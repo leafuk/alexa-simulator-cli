@@ -4,18 +4,17 @@ const vorpal = require('vorpal')();
 const Spinner = require('cli-spinner').Spinner;
 
 var spinner = new Spinner('%s');
-spinner.setSpinnerString(12);
+spinner.setSpinnerString(7);
 
 var _consoleLog = console.log;
 var DEBUG = console.log;
-console.log = function() {};
 
 var alexa = null;
 
 module.exports = { 
     start: function(skill, skillName, interactionModelPath, verbose) {
 
-        alexa = createVirtualAlexa(interactionModelPath, skill, verbose);
+        alexa = createVirtualAlexa(interactionModelPath, skill);
 
         vorpal
             .command('start', 'Invokes the LaunchRequest')
@@ -78,7 +77,15 @@ module.exports = {
                 alexa.context().setAccessToken(args.token);
                 DEBUG('Access Token set to: ' + args.token + ''.grey);
                 cb();
-            })
+            });
+
+        vorpal
+            .command('appid <id>', 'Sets the application ID for requests')
+            .action(function(args, cb) {
+                alexa = createVirtualAlexa(interactionModelPath, skill, args.id);
+                DEBUG('Application ID set to: ' + args.id + ''.grey);
+                cb();
+            });
 
         DEBUG('Skill: ' + skillName);
 
@@ -88,7 +95,7 @@ module.exports = {
         
         var say = function(utterance, cb) {
             spinner.start();
-            
+
             alexa.utter(utterance)
                 .then((payload) => success(verbose, payload))
                 .catch(error)
@@ -120,10 +127,10 @@ var error = function(error) {
     DEBUG(error);
 }
 
-var createVirtualAlexa = function(interactionModelPath, skill) {
+var createVirtualAlexa = function(interactionModelPath, skill, applicationId) {
     return va.VirtualAlexa.Builder()
         .handler(skill.replace('.js', '.handler')) // Lambda function file and name
         .interactionModelFile(interactionModelPath)
-        .applicationID('amzn1.ask.skill.9a451d2a-4788-482c-ad08-b7af959061b4')
+        .applicationID(applicationId ? applicationId : 'amzn1.ask.skill.9a451d2a-4788-482c-ad08-b7af959061b4')
         .create();
 }
