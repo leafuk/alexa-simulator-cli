@@ -6,7 +6,6 @@ var ArgumentParser = require('argparse').ArgumentParser;
 var colors = require('colors');
 var relative = require('relative');
 
-//var path = require('path');
 var fs = require('fs');
 
 var parser = new ArgumentParser();
@@ -34,6 +33,15 @@ parser.addArgument(
   }
 );
 
+parser.addArgument(
+  ['-d', '--debugMode'],
+  {
+    action: 'storeTrue',
+    dest:   'debug',
+    help:   'sets DEBUG environment variable to "DEBUG"'
+  }
+);
+
 var args = parser.parseArgs();
 
 var path = args.path ? args.path : process.cwd();
@@ -41,6 +49,10 @@ var path = args.path ? args.path : process.cwd();
 var interactionModelPath = args.interactionmodel ? path + '/' + args.interactionmodel : path + '/interactionModel.json';
 
 var verbose = args.verbose ? true : false;
+
+if(args.debug) {
+  process.env.DEBUG = 'DEBUG';
+}
 
 try {
     var skillPackageConf = require(path + '/package.json');

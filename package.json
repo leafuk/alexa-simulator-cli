@@ -40,25 +40,11 @@
   "license": "MIT",
   "dependencies": {
     "argparse": "^1.0.9",
+    "cli-spinner": "^0.2.7",
     "colors": "^1.1.2",
     "relative": "^3.0.2",
-    "vorpal": "^1.12.0",
-    "@types/uuid": "^3.4.1",
-    "uuid": "^3.1.0"
+    "virtual-alexa": "^0.3.9",
+    "vorpal": "^1.12.0"
   },
-  "devDependencies": {
-    "@types/chai": "^4.0.4",
-    "@types/mocha": "^2.2.42",
-    "@types/node": "^6.0.88",
-    "chai": "^4.0.4",
-    "codecov": "^2.3.0",
-    "gulp": "^3.9.1",
-    "gulp-typedoc": "^2.0.3",
-    "mocha": "^3.5.0",
-    "nyc": "^11.1.0",
-    "ts-node": "^3.3.0",
-    "tslint": "^5.7.0",
-    "typedoc": "^0.8.0",
-    "typescript": "^2.5.1"
-  }
+  "devDependencies": {}
 }
