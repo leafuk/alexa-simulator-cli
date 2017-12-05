@@ -1,6 +1,10 @@
 const colors = require('colors');
 const va = require('virtual-alexa');
 const vorpal = require('vorpal')();
+const Spinner = require('cli-spinner').Spinner;
+
+var spinner = new Spinner('%s');
+spinner.setSpinnerString(12);
 
 var _consoleLog = console.log;
 var DEBUG = console.log;
@@ -13,11 +17,11 @@ module.exports = {
 
         alexa = createVirtualAlexa(interactionModelPath, skill, verbose);
 
-        //alexa.verboseMode(verbose);
-
         vorpal
             .command('start', 'Invokes the LaunchRequest')
             .action(function (args, cb) {
+                spinner.start();
+
                 alexa.launch()
                     .then((payload) => success(verbose, payload))
                     .catch(error)
@@ -83,6 +87,8 @@ module.exports = {
             .show();
         
         var say = function(utterance, cb) {
+            spinner.start();
+            
             alexa.utter(utterance)
                 .then((payload) => success(verbose, payload))
                 .catch(error)
@@ -94,6 +100,8 @@ module.exports = {
 }
 
 var success = function(verbose, payload) {
+    spinner.stop(true);
+
     if(verbose) {
         DEBUG(JSON.stringify(payload, null, 4));
     }
@@ -106,6 +114,8 @@ var success = function(verbose, payload) {
 }
 
 var error = function(error) {
+    spinner.stop(true);
+
     DEBUG('BOOO! There was a problem:'.bgRed.white);
     DEBUG(error);
 }
