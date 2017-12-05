@@ -41,6 +41,15 @@ If the interactionModel is not located at the root, you can specify the path and
 alexa-sim -i speechAssets/interactionModel.json
 ```
 
+There is an example skill included in the "example-skill" folder. You will need to install the dependencies first if you wish to test against this skill.
+```
+cd example-skill
+
+npm install
+
+alexa-sim
+```
+
 ### Specifying a path for the skill
 You can also run the sim from location, and specify the path to your skill explicitly using the '-p' flag (path)
 ```
