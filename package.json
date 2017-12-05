@@ -3,29 +3,11 @@
   "version": "0.0.1",
   "description": "CLI Alexa Simulator",
   "main": "index.js",
-  "typings": "./lib/src/Index.d.ts",
   "bin": {
     "alexa-sim": "./bin/start.js"
   },
   "engines": {
     "node": "> 6.0.0"
-  },
-  "files": [
-    "lib/src/*.js",
-    "lib/src/Device.d.ts",
-    "lib/src/Index.d.ts",
-    "lib/src/SkillContext.d.ts",
-    "lib/src/SkillSession.d.ts",
-    "lib/src/User.d.ts",
-    "lib/src/VirtualAlexa.d.ts"
-  ],
-  "scripts": {
-    "docs": "gulp --gulpfile docs/gulpfile.js --cwd .",
-    "posttest": "nyc report --reporter=json --reporter=html && codecov -f coverage/*.json",
-    "pretest": "npm run tsc",
-    "test": "nyc mocha lib/**/*Test.js",
-    "tsc": "tsc",
-    "typings": "typings install"
   },
   "keywords": [
     "alexa",
