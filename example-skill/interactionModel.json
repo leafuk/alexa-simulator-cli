@@ -1,0 +1,50 @@
+{
+  "languageModel": {
+    "intents": [
+      {
+        "name": "AMAZON.CancelIntent",  
+        "samples": []  
+      },
+      {
+        "name": "AMAZON.HelpIntent",
+        "samples": []
+      },
+      {
+        "name": "AMAZON.StopIntent",
+        "samples": []
+      },
+      {
+        "name": "PersonBirthdayIntent",
+        "samples": [
+          "when is {person} birthday",
+          "when is the birthday for {person}"
+        ],
+        "slots": [
+          {
+            "name": "person",
+            "type": "LIST_OF_PEOPLE",
+            "samples": []
+          }
+        ]
+      }
+    ],
+    "types": [
+      {
+        "name": "LIST_OF_PEOPLE",
+        "values": [
+          {
+            "id": null,
+            "name": {
+              "value": "tom",
+              "synonyms": [
+                "tom",
+                "toms",
+                "thomas"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
