@@ -1,5 +1,5 @@
 const colors = require('colors');
-const va = require("./lib/src/Index");
+const va = require('virtual-alexa');
 const vorpal = require('vorpal')();
 
 var _consoleLog = console.log;
@@ -13,7 +13,7 @@ module.exports = {
 
         alexa = createVirtualAlexa(interactionModelPath, skill, verbose);
 
-        alexa.verboseMode(verbose);
+        //alexa.verboseMode(verbose);
 
         vorpal
             .command('start', 'Invokes the LaunchRequest')
