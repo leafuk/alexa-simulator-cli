@@ -53,6 +53,12 @@ For more detailed info, include the verbose flag (`-v`)
 alexa-sim -v
 ```
 
+### Debug mode
+You can set "debug" environment variable to a value of "DEBUG" by including the '-d' flag (debug)
+```
+alexa-sim -d
+```
+
 # Using the simulator
 This tool is intended to simulate the calls made by the Alexa Voice Service, by building JSON requests based on the commands you give. 
 
@@ -65,11 +71,13 @@ Let's say that you're developing a skill that can manage the birthdays of people
 
 This will create and trigger a launch request for your skill.
 
+
 `say ...`
 
 The say command is the one which takes whatever you type after the word "say" and converts it into an intent.
 
 For example, you can type `say when is tom's birthday`, and the simulate will build the appropriate intent request and call your lambda function.
+
 
 `stop`
 
@@ -79,3 +87,8 @@ Creates an intent request for "AMAZON.StopIntent". You can also use `say stop`
 `token ...`
 
 Set the access token to the supplied value for any subsequent requests. This allows you to call your skill while supplying a real access token. `token 1bNDh273r.hdbdt7wj2jb.293...` (shortened for brevity).
+
+
+`appid ...`
+
+Set the application ID to the supplied value. If you have application ID checks in your skill, you can supply a valid ID by calling this command. `appid amzn1.ask.skill.9a451d2a-4788-482c-ad08-b7af959061b4`.
