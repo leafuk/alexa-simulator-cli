@@ -53,7 +53,7 @@ For more detailed info, include the verbose flag (`-v`)
 alexa-sim -v
 ```
 
-### Debug mode
+#### Debug mode
 You can set "debug" environment variable to a value of "DEBUG" by including the '-d' flag (debug)
 ```
 alexa-sim -d
