@@ -81,16 +81,16 @@ Let's say that you're developing a skill that can manage the birthdays of people
 This will create and trigger a launch request for your skill.
 
 
+`exit`
+
+This will cause the simulator to exit completely.
+
+
 `say ...`
 
 The say command is the one which takes whatever you type after the word "say" and converts it into an intent.
 
 For example, you can type `say when is tom's birthday`, and the simulate will build the appropriate intent request and call your lambda function.
-
-
-`stop`
-
-Creates an intent request for "AMAZON.StopIntent". You can also use `say stop`
 
 
 `token ...`
@@ -101,3 +101,33 @@ Set the access token to the supplied value for any subsequent requests. This all
 `appid ...`
 
 Set the application ID to the supplied value. If you have application ID checks in your skill, you can supply a valid ID by calling this command. `appid amzn1.ask.skill.9a451d2a-4788-482c-ad08-b7af959061b4`.
+
+
+`stop`
+
+Creates an intent request for "AMAZON.StopIntent". You can also use `say stop` or `say shut up`.
+
+
+`cancel`
+
+Creates an intent request for "AMAZON.CancelIntent". You can also use `say cancel`.
+
+
+`start over`
+
+Creates an intent request for "AMAZON.StartOverIntent". You can also use `say start over` or `say restart`.
+
+
+`repeat`
+
+Creates an intent request for "AMAZON.RepeatIntent". You can also use `say repeat` or `say say that again`.
+
+
+`next`
+
+Creates an intent request for "AMAZON.NextIntent". You can also use `say next` or `say skip`.
+
+
+`previous`
+
+Creates an intent request for "AMAZON.PreviousIntent". You can also use `say previous` or `say go back`.

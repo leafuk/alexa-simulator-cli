@@ -14,6 +14,30 @@
         "samples": []
       },
       {
+        "name": "AMAZON.StartOverIntent",
+        "samples": []
+      },
+      {
+        "name": "AMAZON.RepeatIntent",
+        "samples": []
+      },
+      {
+        "name": "AMAZON.NextIntent",
+        "samples": []
+      },
+      {
+        "name": "AMAZON.PreviousIntent",
+        "samples": []
+      },
+      {
+        "name": "AMAZON.YesIntent",
+        "samples": []
+      },
+      {
+        "name": "AMAZON.NoIntent",
+        "samples": []
+      },
+      {
         "name": "PersonBirthdayIntent",
         "samples": [
           "when is {person} birthday",

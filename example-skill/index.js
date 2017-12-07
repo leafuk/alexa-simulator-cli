@@ -23,6 +23,30 @@ var handlers = {
     'AMAZON.CancelIntent': function() {
         this.emit(':tell', 'Cancelled.');
     },
+    
+    'AMAZON.StartOverIntent': function() {
+        this.emit(':ask', 'Starting again.', 'How can I help?');
+    },
+    
+    'AMAZON.RepeatIntent': function() {
+        this.emit(':ask', 'I\'m repeating myself.', 'How can I help?');
+    },
+    
+    'AMAZON.NextIntent': function() {
+        this.emit(':tell', 'Skipping to next item.');
+    },
+    
+    'AMAZON.PreviousIntent': function() {
+        this.emit(':tell', 'Skipping to previous item.');
+    },
+    
+    'AMAZON.YesIntent': function() {
+        this.emit(':tell', 'You said yes.');
+    },
+    
+    'AMAZON.NoIntent': function() {
+        this.emit(':tell', 'You said no.');
+    },
 
     'AMAZON.StopIntent': function() {
         this.emit(':tell', 'Stopped.');

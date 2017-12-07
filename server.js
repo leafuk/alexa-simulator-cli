@@ -32,37 +32,37 @@ module.exports = {
         vorpal
             .command('stop', 'Invokes an AMAZON.StopIntent')
             .action(function (args, cb){
-                say('AMAZON.StopIntent', cb);
+                intend('AMAZON.StopIntent', cb);
             });
 
         vorpal
             .command('cancel', 'Invokes an AMAZON.CancelIntent')
             .action(function (args, cb) {
-                say('AMAZON.CancelIntent', cb);
+                intend('AMAZON.CancelIntent', cb);
             });
 
         vorpal
-            .command('start over', 'Invokes an AMAZON.StartOverIntent')
+            .command('start again', 'Invokes an AMAZON.StartOverIntent')
             .action(function(args, cb){
-                say('AMAZON.StartOverIntent', cb);
+                intend('AMAZON.StartOverIntent', cb);
             });
 
         vorpal
             .command('repeat', 'Invokes an AMAZON.RepeatIntent')
             .action(function(args, cb){
-                say('AMAZON.RepeatIntent', cb);
+                intend('AMAZON.RepeatIntent', cb);
             });
 
         vorpal
             .command('next', 'Invokes an AMAZON.NextIntent')
             .action(function(args, cb) {
-                say('AMAZON.NextIntent', cb);
+                intend('AMAZON.NextIntent', cb);
             });
             
         vorpal
             .command('previous', 'Invokes an AMAZON.PreviousIntent')
             .action(function(args, cb) {
-                say('AMAZON.PreviousIntent', cb);
+                intend('AMAZON.PreviousIntent', cb);
             });
 
         vorpal
@@ -92,10 +92,21 @@ module.exports = {
         vorpal
             .delimiter('Enter utterance'.bgCyan.black)
             .show();
+
+        var intend = function(utterance, cb) {
+                spinner.start();
+                
+                alexa.intend(utterance)
+                    .then((payload) => success(verbose, payload))
+                    .catch(error)
+                    .then(() => {
+                        cb();
+                    });
+            }
         
         var say = function(utterance, cb) {
             spinner.start();
-
+            
             alexa.utter(utterance)
                 .then((payload) => success(verbose, payload))
                 .catch(error)
