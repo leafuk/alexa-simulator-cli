@@ -8,11 +8,12 @@ exports.handler = function(event, context, callback){
     }
 
     alexa.registerHandlers(handlers);
-    alexa.execute();
+    setTimeout(()=> alexa.execute(), 1000);
 };
 
 var handlers = {
     'LaunchRequest': function () {
+        // simulate some latency to allow the spinner to show
         setTimeout(()=> this.emit('HelloWorldIntent'), 1000);
     },
 

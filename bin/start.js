@@ -42,6 +42,13 @@ parser.addArgument(
   }
 );
 
+parser.addArgument(
+  ['-ex', '--extensions'],
+  {
+    help: 'Path to extensions folder'
+  }
+);
+
 var args = parser.parseArgs();
 
 var path = args.path ? args.path : process.cwd();
@@ -53,6 +60,8 @@ var verbose = args.verbose ? true : false;
 if(args.debug) {
   process.env.DEBUG = 'DEBUG';
 }
+
+console.log(args.extensions);
 
 try {
     var skillPackageConf = require(path + '/package.json');
